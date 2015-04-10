@@ -18,7 +18,7 @@
 // Additional Comments: 
 //
 //////////////////////////////////////////////////////////////////////////////////
-module iteration(a,b,c,d,e,f,g,h,W,clk );
+module iteration(t1_out, t2_out, a,b,c,d,e,f,g,h,W,clk );
 output [31:0] reg t1_out, t2_out;	
 input [31:0] a,b,c,d,e,f,g,h, W;	
 input clk;
