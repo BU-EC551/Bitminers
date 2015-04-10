@@ -18,10 +18,9 @@
 // Additional Comments: 
 //
 //////////////////////////////////////////////////////////////////////////////////
-module iteration(t1_out, t2_out, a,b,c,d,e,f,g,h,W,select,clk );
+module iteration(t1_out, t2_out, a,b,c,d,e,f,g,h,W,select);
 output [31:0] reg t1_out, t2_out;	
 input [31:0] a,b,c,d,e,f,g,h, W;	
-input clk;
 input [5:0] select;
 reg [31:0] K[63:0];
 
@@ -34,7 +33,7 @@ end
 
 	
 
-always @(posedge clk)
+always @(select[0])
 begin
 t1=h+({e[5:0], e[31:6]})^({e[10:0], e[31:11]})^({e[24:0], e[31:25]})+(e&f)^((~e)&g)+K[select]+W;
 t2=({a[1:0], a[31:2]})^({a[12:0], a[31:13]})^({a[21:0], a[31:22]})+(a&b)^(a&c)^(b&c);
