@@ -22,11 +22,11 @@ module top(input clk, output [31:0] h1, h2, h3, h4, h5, h6, h7, h8, a_out, b_out
     );
 	 
 reg block;
-reg [5:0]select;
+reg [6:0]select;
 reg input_select;		//selects which set of inputs to work on
 reg regControl;		//high only when counter = 0, to input H values to a-h registers 
 reg [31:0] msg_in[15:0];
-//reg [31:0] H[7:0];
+
 
 initial 
 begin
@@ -34,7 +34,6 @@ begin
 	block =1;
 	regControl = 0;
 	$readmemh("message1.txt",msg_in);
-	//$readmemh("h.txt",H);
 	input_select = 1'b0;
 end
 
@@ -64,13 +63,7 @@ wire [31:0] t1_out, t2_out;
 	
 always @(posedge clk)
 begin
-	/*if (input_select == 1) 
-		begin
-			select = select + 1'b1;
-			input_select = 0;
-		end
-	else */
-		input_select = input_select + 1'b1; 
+
 	if(select == 0)
 		begin
 			regControl = 1;
@@ -79,11 +72,15 @@ begin
 		begin
 			regControl = 0;	
 		end
-	if (select == 0)
-	begin
-			block = !block;
-	end
-select = select + 1'b1;
+	if(select == 0)
+	block = !block;
+
+	if (select == 64)
+	select = 0;		
+	else
+	select = select + 1'b1;
+
+	
 	input_select = input_select + 1'b1; 
 end
 
