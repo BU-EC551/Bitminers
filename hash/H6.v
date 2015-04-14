@@ -18,12 +18,13 @@
 // Additional Comments: 
 //
 //////////////////////////////////////////////////////////////////////////////////
-module H6(input Block, clk, input [31:0] f, output reg [31:0] H6_out );
+module H6(input Block, clk, input [31:0] f, output reg [31:0] H6_out, H6 );
 
 reg source; 
 initial
 begin
 H6_out = 32'h9b05688c;
+H6= 32'h9b05688c;
 end
 
 always @ (posedge clk)
@@ -32,15 +33,24 @@ begin
 	if (Block == 0)			
 	begin
 			H6_out = 32'h9b05688c;
+			H6= 32'h9b05688c;
 			source =0;
 		end
 	else
 		begin
-		if(source ==0)
+		if(Block ==1 && source == 0)
 		begin
 			H6_out = f + H6_out;
+			H6= 32'h9b05688c;
 			source = ~source;
 			end
+				else
+		if(Block ==2 && source ==1)
+				begin
+					H6_out = f + H6_out;
+			H6= 32'h9b05688c;
+			source = ~source;
+				end
 		end
 		
 end

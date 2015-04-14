@@ -18,28 +18,40 @@
 // Additional Comments: 
 //
 //////////////////////////////////////////////////////////////////////////////////
-module H1(input Block, clk, input [31:0] a, output reg [31:0] H1_out);
+module H1(input [1:0] Block, clk, input [31:0] a, output reg [31:0] H1_out, H1);
 
 reg source;			// 0 - read from initial values. 1 - read from intermediate
 
 initial
+begin
 H1_out = 32'h6a09e667;
+H1= 32'h6a09e667;
+end
 
 always @ (posedge clk)
 begin
-	//
+
 	if (Block == 0)		//initial block, reading default values
 		begin
 			H1_out = 32'h6a09e667;
+			H1= 32'h6a09e667;
 			source =0;
 		end
 	else
 		begin
-		if(source == 0)
+		if(Block ==1 && source == 0)
 		begin
 			H1_out = a + H1_out;
+			H1= 32'h6a09e667;
 			source = ~source;
 		end
+		else
+		if(Block ==2 && source ==1)
+				begin
+					H1_out = a + H1_out;
+					H1= 32'h6a09e667;
+					source = ~source;
+				end
 		end
 		
 end

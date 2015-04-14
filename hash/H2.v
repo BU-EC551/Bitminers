@@ -18,12 +18,13 @@
 // Additional Comments: 
 //
 //////////////////////////////////////////////////////////////////////////////////
-module H2(input Block, clk, input [31:0] b, output reg [31:0] H2_out );
+module H2(input Block, clk, input [31:0] b, output reg [31:0] H2_out, H2 );
 
 reg source; 
 initial
 begin
 H2_out = 32'hbb67ae85;
+H2 = 32'hbb67ae85;
 end
 
 always @ (posedge clk)
@@ -32,15 +33,24 @@ begin
 	if (Block == 0)			//initial block, reading default values
 		begin
 			H2_out = 32'hbb67ae85;
+			H2= 32'hbb67ae85;
 			source =0;
 		end
 	else
 		begin
-		if(source == 0)
+		if(Block ==1 && source == 0)
 			begin
 			H2_out = b + H2_out;
+			H2= 32'hbb67ae85;
 			source = ~source;
 			end
+		else
+		if(Block ==2 && source ==1)
+				begin
+					H2_out = b + H2_out;
+					H2= 32'hbb67ae85;
+					source = ~source;
+				end
 		end
 		
 end

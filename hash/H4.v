@@ -18,12 +18,13 @@
 // Additional Comments: 
 //
 //////////////////////////////////////////////////////////////////////////////////
-module H4(input Block, clk, input [31:0] d, output reg [31:0] H4_out );
+module H4(input Block, clk, input [31:0] d, output reg [31:0] H4_out, H4 );
 
 reg source; 
 initial
 begin
 H4_out = 32'ha54ff53a;
+H4 = 32'ha54ff53a;
 end
 
 always @ (posedge clk)
@@ -32,15 +33,24 @@ begin
 	if (Block == 0)			
 	begin
 			H4_out = 32'ha54ff53a;
+			H4 = 32'ha54ff53a;
 			source =0;
 		end
 	else
 		begin
-		if(source ==0)
+		if(Block ==1 && source == 0)
 		begin
 			H4_out = d + H4_out;
+			H4 = 32'ha54ff53a;
 			source = ~source;
 		end
+		else
+		if(Block ==2 && source ==1)
+				begin
+					H4_out = d + H4_out;
+					H4 = 32'ha54ff53a;
+					source = ~source;
+				end
 		end
 		
 end

@@ -46,7 +46,7 @@ module top_test;
 	wire [31:0] h_out;
 
 	// Instantiate the Unit Under Test (UUT)
-	top uut (
+	hash uut (
 		.clk(clk), 
 		.h1(h1), 
 		.h2(h2), 

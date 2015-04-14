@@ -18,12 +18,13 @@
 // Additional Comments: 
 //
 //////////////////////////////////////////////////////////////////////////////////
-module H7(input Block,clk, input [31:0] g, output reg [31:0] H7_out );
+module H7(input Block,clk, input [31:0] g, output reg [31:0] H7_out, H7 );
 
 reg source; 
 initial
 begin
 H7_out = 32'h1f83d9ab;
+H7= 32'h1f83d9ab;
 end
 
 always @ (posedge clk)
@@ -32,15 +33,24 @@ begin
 	if (Block == 0)			
 	begin
 			H7_out = 32'h1f83d9ab;
+			H7= 32'h1f83d9ab;
 			source =0;
 		end
 	else
 		begin
-		if(source ==0)
+		if(Block ==1 && source == 0)
 		begin
 			H7_out = g + H7_out;
+			H7= 32'h1f83d9ab;
 			source = ~source;
 			end
+				else
+		if(Block ==2 && source ==1)
+				begin
+					H7_out = g + H7_out;
+			H7= 32'h1f83d9ab;
+			source = ~source;
+				end
 		end
 		
 end
