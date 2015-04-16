@@ -18,7 +18,7 @@
 // Additional Comments: 
 //
 //////////////////////////////////////////////////////////////////////////////////
-module H1(input [1:0] Block, clk, input [31:0] a, output reg [31:0] H1_out, H1);
+module H1(input [1:0] Block, input clk, input [31:0] a, output reg [31:0] H1_out, H1);
 
 reg source;			// 0 - read from initial values. 1 - read from intermediate
 
