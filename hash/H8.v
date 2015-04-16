@@ -18,7 +18,7 @@
 // Additional Comments: 
 //
 //////////////////////////////////////////////////////////////////////////////////
-module H8(input Block, clk, input [31:0] h, output reg [31:0] H8_out, H8 );
+module H8(input [1:0] Block, input clk, input [31:0] h, output reg [31:0] H8_out, H8 );
 
 reg source; 
 initial

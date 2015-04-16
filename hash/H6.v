@@ -18,7 +18,7 @@
 // Additional Comments: 
 //
 //////////////////////////////////////////////////////////////////////////////////
-module H6(input Block, clk, input [31:0] f, output reg [31:0] H6_out, H6 );
+module H6(input [1:0] Block, input clk, input [31:0] f, output reg [31:0] H6_out, H6 );
 
 reg source; 
 initial

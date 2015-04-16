@@ -18,7 +18,7 @@
 // Additional Comments: 
 //
 //////////////////////////////////////////////////////////////////////////////////
-module H5(input Block, clk, input [31:0] e, output reg [31:0] H5_out, H5 );
+module H5(input [1:0] Block, input clk, input [31:0] e, output reg [31:0] H5_out, H5 );
 
 reg source; 
 initial

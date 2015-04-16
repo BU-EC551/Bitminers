@@ -18,7 +18,7 @@
 // Additional Comments: 
 //
 //////////////////////////////////////////////////////////////////////////////////
-module H3(input Block, clk, input [31:0] c, output reg [31:0] H3_out, H3 );
+module H3(input [1:0] Block, input clk, input [31:0] c, output reg [31:0] H3_out, H3 );
 
 reg source; 
 initial
