@@ -32,24 +32,30 @@ begin
 	
 	if (Block == 0)			
 	begin
-			H6_out = 32'h9b05688c;
-			H6= 32'h9b05688c;
-			source =0;
+			H6_out <= 32'h9b05688c;
+			H6<= 32'h9b05688c;
+			source <=0;
 		end
 	else
 		begin
 		if(Block ==1 && source == 0)
 		begin
-			H6_out = f + H6_out;
-			H6= 32'h9b05688c;
-			source = ~source;
+			H6_out <= f + H6_out;
+			H6<= f + H6_out;
+			source <= ~source;
 			end
 				else
 		if(Block ==2 && source ==1)
 				begin
-					H6_out = f + H6_out;
-			H6= 32'h9b05688c;
-			source = ~source;
+					H6_out <= f + H6_out;
+			H6<= 32'h9b05688c;
+			source <= ~source;
+				end
+			if(Block ==3 && source ==0)
+				begin
+					H6_out <= f + H6_out;
+			H6<= 32'h9b05688c;
+			source <= ~source;
 				end
 		end
 		

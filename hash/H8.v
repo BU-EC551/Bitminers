@@ -32,24 +32,31 @@ begin
 	
 	if (Block == 0)			
 	begin
-			H8_out = 32'h5be0cd19;
-			H8 = 32'h5be0cd19;
-			source = 0;
+			H8_out <= 32'h5be0cd19;
+			H8 <= 32'h5be0cd19;
+			source <= 0;
 		end
 	else
 		begin
 		if(Block ==1 && source == 0)
 		begin
-			H8_out = h + H8_out;
-			H8 = 32'h5be0cd19;
-			source = ~source;
+			H8_out <= h + H8_out;
+			H8 <= h + H8_out;
+			source <= ~source;
 			end
 				else
 		if(Block ==2 && source ==1)
 				begin
-					H8_out = h + H8_out;
-			H8 = 32'h5be0cd19;
-			source = ~source;
+					H8_out <= h + H8_out;
+			H8 <= 32'h5be0cd19;
+			source <= ~source;
+				end
+						else
+		if(Block ==3 && source ==0)
+				begin
+					H8_out <= h + H8_out;
+			H8 <= 32'h5be0cd19;
+			source <= ~source;
 				end
 		end
 		

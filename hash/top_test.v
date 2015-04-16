@@ -36,17 +36,10 @@ module top_test;
 	wire [31:0] h6;
 	wire [31:0] h7;
 	wire [31:0] h8;
-	wire [31:0] a_out;
-	wire [31:0] b_out;
-	wire [31:0] c_out;
-	wire [31:0] d_out;
-	wire [31:0] e_out;
-	wire [31:0] f_out;
-	wire [31:0] g_out;
-	wire [31:0] h_out;
+
 
 	// Instantiate the Unit Under Test (UUT)
-	hash uut (
+	super uut (
 		.clk(clk), 
 		.h1(h1), 
 		.h2(h2), 
@@ -55,15 +48,7 @@ module top_test;
 		.h5(h5), 
 		.h6(h6), 
 		.h7(h7), 
-		.h8(h8), 
-		.a_out(a_out), 
-		.b_out(b_out), 
-		.c_out(c_out), 
-		.d_out(d_out), 
-		.e_out(e_out), 
-		.f_out(f_out), 
-		.g_out(g_out), 
-		.h_out(h_out)
+		.h8(h8)
 	);
 
 	initial begin

@@ -33,24 +33,31 @@ begin
 
 	if (Block == 0)		//initial block, reading default values
 		begin
-			H1_out = 32'h6a09e667;
-			H1= 32'h6a09e667;
-			source =0;
+			H1_out <= 32'h6a09e667;
+			H1<= 32'h6a09e667;
+			source <=0;
 		end
 	else
 		begin
 		if(Block ==1 && source == 0)
 		begin
-			H1_out = a + H1_out;
-			H1= 32'h6a09e667;
-			source = ~source;
+			H1_out <= a + H1_out;
+			H1<= a + H1_out;
+			source <= ~source;
 		end
 		else
 		if(Block ==2 && source ==1)
 				begin
-					H1_out = a + H1_out;
-					H1= 32'h6a09e667;
-					source = ~source;
+					H1_out <= a + H1_out;
+					H1<= 32'h6a09e667;
+					source <= ~source;
+				end
+			else
+		if(Block ==3 && source ==0)
+				begin
+					H1_out <= a + H1_out;
+					H1<= 32'h6a09e667;
+					source <= ~source;
 				end
 		end
 		

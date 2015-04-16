@@ -32,24 +32,30 @@ begin
 	
 	if (Block == 0)			
 	begin
-			H4_out = 32'ha54ff53a;
-			H4 = 32'ha54ff53a;
-			source =0;
+			H4_out <=32'ha54ff53a;
+			H4 <=32'ha54ff53a;
+			source <=0;
 		end
 	else
 		begin
 		if(Block ==1 && source == 0)
 		begin
-			H4_out = d + H4_out;
-			H4 = 32'ha54ff53a;
-			source = ~source;
+			H4_out <=d + H4_out;
+			H4 <=d + H4_out;
+			source <=~source;
 		end
 		else
 		if(Block ==2 && source ==1)
 				begin
-					H4_out = d + H4_out;
-					H4 = 32'ha54ff53a;
-					source = ~source;
+					H4_out <=d + H4_out;
+					H4 <=32'ha54ff53a;
+					source <=~source;
+				end
+				if(Block ==3 && source ==0)
+				begin
+					H4_out <=d + H4_out;
+					H4 <=32'ha54ff53a;
+					source <=~source;
 				end
 		end
 		

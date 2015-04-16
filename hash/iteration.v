@@ -18,10 +18,11 @@
 // Additional Comments: 
 //
 //////////////////////////////////////////////////////////////////////////////////
-module iteration(t1_out, t2_out, a,b,c,d,e,f,g,h,message_in,select, clk);
+module iteration(t1_out, t2_out, a,b,c,d,e,f,g,h, message_in, message_hash, block, select, clk);
 
 output  reg [31:0]t1_out, t2_out;	
-input [31:0] a,b,c,d,e,f,g,h,message_in;	
+input [31:0] a,b,c,d,e,f,g,h,message_in, message_hash;
+input [1:0]block;	
 input [6:0] select;
 input clk;
 //reg [31:0] K[63:0];
@@ -174,7 +175,7 @@ end
 always @(negedge clk)
 	begin
 	 for(i = 0; i <16; i=i+1) begin
-          message_array[i] <= message_array[i+1];
+          message_array[i] = message_array[i+1];
        end 
 		end
 
@@ -184,6 +185,9 @@ begin
 
 if (select < 16)
 		begin
+		if(block ==2)
+		message_array[16] = message_hash;
+		else
 		message_array[16] = message_in;
 		end
 	else 	

@@ -18,11 +18,9 @@
 // Additional Comments: 
 //
 //////////////////////////////////////////////////////////////////////////////////
-<<<<<<< HEAD
+
 module H3(input [1:0] Block, input clk, input [31:0] c, output reg [31:0] H3_out, H3 );
-=======
-module H3(input [1:0]Block, input clk, input [31:0] c, output reg [31:0] H3_out, H3 );
->>>>>>> 642f66b6cf519c2c7ac7e2990da1dbc4da16c300
+
 
 reg source; 
 initial
@@ -36,25 +34,31 @@ begin
 	
 	if (Block == 0)			//initial block, reading default values
 		begin
-			H3_out = 32'h3c6ef372;
-			H3 =32'h3c6ef372;
-			source =0;
+			H3_out <=32'h3c6ef372;
+			H3 <= 32'h3c6ef372;
+			source <=0;
 		end
 	else
 		begin
 		if(Block ==1 && source == 0)
 			begin
-			H3_out = c + H3_out;
-			H3 =32'h3c6ef372;
-			source = ~source;
+			H3_out <= c + H3_out;
+			H3 <= c + H3_out;
+			source <=~source;
 			end
 		else
 		if(Block ==2 && source ==1)
 				begin
-					H3_out = c + H3_out;
-					H3 =32'h3c6ef372;
-					source = ~source;
+					H3_out <=c + H3_out;
+					H3 <=32'h3c6ef372;
+					source <=~source;
 				end
+			if(Block ==3 && source ==0)
+				begin
+					H3_out <=c + H3_out;
+					H3 <=32'h3c6ef372;
+					source <=~source;
+				end	
 		end
 		
 end

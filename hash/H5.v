@@ -32,24 +32,30 @@ begin
 	
 	if (Block == 0)			
 	begin
-			H5_out = 32'h510e527f;
-			H5 = 32'h510e527f;
-			source =0;
+			H5_out <=32'h510e527f;
+			H5 <=32'h510e527f;
+			source <=0;
 		end
 	else
 		begin
 		if(Block ==1 && source == 0)
 		begin
-			H5_out = e + H5_out;
-			H5 = 32'h510e527f;
-			source = ~source;
+			H5_out <=e + H5_out;
+			H5 <=e + H5_out;
+			source <=~source;
 			end
 				else
 		if(Block ==2 && source ==1)
 				begin
-					H5_out = e + H5_out;
-			H5 = 32'h510e527f;
-			source = ~source;
+					H5_out <=e + H5_out;
+			H5 <=32'h510e527f;
+			source <=~source;
+				end
+				if(Block ==3 && source ==0)
+				begin
+					H5_out <=e + H5_out;
+			H5 <=32'h510e527f;
+			source <=~source;
 				end
 		end
 		
