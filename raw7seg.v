@@ -21,10 +21,10 @@ module raw7seg(clk, segment, anode, word);
    input [(SEG_UNITS * 8 - 1):0] word;
 
    // cnt is used as a prescaler
-   reg [15:0] 	cnt;
+   reg [5:0] 	cnt;
    
-   always @(posedge clk) cnt<=cnt+16'h1;
-   wire 	cntovf = &cnt;
+   always @(posedge clk) cnt<=cnt+1;
+   wire 	cntovf = cnt[5];
 
    // Fixed to a maximum of 16 digits for now, as I cannot easily use
    // log and ceil functions in Verilog.
@@ -44,15 +44,89 @@ module raw7seg(clk, segment, anode, word);
 	   assign segment = word_shifted[7:0];
 	end
    endgenerate
-	
-   always @(posedge cntovf)
-     if (an_index == SEG_UNITS - 1)
+	integer counter;
+   always @(posedge cntovf) begin
+		case(counter)
+		0:
+		begin
+			//an_index <= 4'b1000;
+		counter <= 1;
+		if (an_index == SEG_UNITS - 1)
        an_index <= 0;
-     else
+		else
        an_index <= an_index + 1'b1;
-
-   always @(posedge clk)
-     word_shifted <= word >> (an_index * 8);
+		end
+		1:
+		begin
+			word_shifted <= word >> (an_index * 8);
+			counter <= 2;
+		end
+		2:
+		begin
+			word_shifted <= 0;
+			counter <= 3;
+		end
+		3:
+		begin
+			//an_index <= 4'b0100;
+			counter <= 4;
+			if (an_index == SEG_UNITS - 1)
+				an_index <= 0;
+			else
+				an_index <= an_index + 1'b1;
+		end
+		4:
+		begin
+			word_shifted <= word >> (an_index * 8);
+			counter <= 5;
+		end
+		5:
+		begin
+			word_shifted <= 0;
+			counter <= 6;
+		end
+		6:
+		begin
+			//an_index <= 4'b0010;
+			counter <= 7;
+			if (an_index == SEG_UNITS - 1)
+				an_index <= 0;
+			else
+				an_index <= an_index + 1'b1;
+		end
+		7:
+		begin
+			word_shifted <= word >> (an_index * 8);
+			counter <= 8;
+		end
+		8:
+		begin
+			word_shifted <= 0;
+			counter <= 9;
+		end
+		9:
+		begin
+			//an_index <= 4'b0001;
+			counter <= 10;
+			if (an_index == SEG_UNITS - 1)
+				an_index <= 0;
+			else
+				an_index <= an_index + 1'b1;
+		end
+		10:
+		begin
+			word_shifted <= word >> (an_index * 8);
+			counter <= 11;
+		end
+		11:
+		begin
+			word_shifted <= 0;
+			counter <= 0;
+		end
+		default:
+			counter <= 0;
+		endcase
+	end
 
    localparam [(SEG_UNITS - 1):0] 	anode_init = 1;
    generate

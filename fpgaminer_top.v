@@ -144,9 +144,9 @@ module fpgaminer_top (osc_clk, RxD, TxD, anode, segment, disp_switch);
 			//data_buf <= 256'h00000000000000000000000080000000_00000000_39f3001b6b7b8d4dc14bfc31;
 			//nonce <= 30411740;
 		`else
-			midstate_buf <= 256'h2b3f81261b3cfd001db436cfd4c8f3f9c7450c9a0d049bee71cba0ea2619c0b5;;//midstate_vw;
-			data_buf <= 256'h00000000000000000000000080000000_00000000_39f3001b6b7b8d4dc14bfc31;; //data2_vw;
-			//nonce <= 30411740;
+			midstate_buf <= midstate_vw;
+			data_buf <= data2_vw;
+			nonce <= 30411740;
 		`endif
 
 		cnt <= cnt_next;
@@ -173,9 +173,13 @@ module fpgaminer_top (osc_clk, RxD, TxD, anode, segment, disp_switch);
 			if (!serial_busy) serial_send <= 1;
 		   
 		end // if (is_golden_ticket)
+		else begin
+				golden_nonce <= 32'hc0b5ff31;
+				if (!serial_busy) serial_send <= 1;
+		end
 
-		else
-		  serial_send <= 0;
+		//else
+		  //serial_send <= 0;
 	   
 `ifdef SIM
 		if (!feedback_d1)
@@ -194,8 +198,8 @@ module fpgaminer_top (osc_clk, RxD, TxD, anode, segment, disp_switch);
    // inverted signals, so 1111.. to turn it off
    assign segment = disp_switch? segment_data : {8{1'b1}};
    
-//   raw7seg disp(.clk(hash_clk), .segment(segment_data), .anode(anode), .word({midstate_vw[15:0], data2_vw[15:0]}));
-   raw7seg disp(.clk(hash_clk), .segment(segment_data), .anode(anode), .word(golden_nonce));
+   //raw7seg disp(.clk(hash_clk), .segment(segment_data), .anode(anode), .word({midstate_buf[255:255-15], data_buf[255:255-15]}));
+   raw7seg disp(.clk(hash_clk), .segment(segment_data), .anode(anode), .word(midstate_buf[255:255-31]));
    
 endmodule
 

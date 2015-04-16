@@ -21,8 +21,8 @@ module async_transmitter(
 // Assert TxD_start for (at least) one clock cycle to start transmission of TxD_data
 // TxD_data is latched so that it doesn't have to stay valid while it is being sent
 
-parameter ClkFrequency = 50000000;	// 25MHz
-parameter Baud = 115200;
+parameter ClkFrequency = 100000000;	// 25MHz
+parameter Baud = 9600;
 
 generate
 	if(ClkFrequency<Baud*8 && (ClkFrequency % Baud!=0)) ASSERTION_ERROR PARAMETER_OUT_OF_RANGE();//"Frequency incompatible with requested Baud rate");
@@ -84,8 +84,8 @@ module async_receiver(
 	output reg RxD_endofpacket = 0  // asserted for one clock cycle when a packet has been detected (i.e. RxD_idle is going high)
 );
 
-parameter ClkFrequency = 25000000; // 25MHz
-parameter Baud = 115200;
+parameter ClkFrequency = 100000000; // 25MHz
+parameter Baud = 9600;
 
 parameter Oversampling = 8;  // needs to be a power of 2
 // we oversample the RxD line at a fixed rate to capture each RxD data bit at the "right" time
