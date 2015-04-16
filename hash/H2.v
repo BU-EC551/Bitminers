@@ -18,7 +18,11 @@
 // Additional Comments: 
 //
 //////////////////////////////////////////////////////////////////////////////////
+<<<<<<< HEAD
 module H2(input [1:0] Block, input clk, input [31:0] b, output reg [31:0] H2_out, H2 );
+=======
+module H2(input [1:0]Block, input clk, input [31:0] b, output reg [31:0] H2_out, H2 );
+>>>>>>> 642f66b6cf519c2c7ac7e2990da1dbc4da16c300
 
 reg source; 
 initial
