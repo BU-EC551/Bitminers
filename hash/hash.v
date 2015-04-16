@@ -18,20 +18,18 @@
 // Additional Comments: 
 //
 //////////////////////////////////////////////////////////////////////////////////
-module hash(input clk, output [31:0] h1, a_out, b_out, c_out, d_out, e_out, f_out, g_out, h_out , h2, h3, h4, h5, h6, h7, h8);
+module hash( input clk, input [1:0]block, input [6:0]select, input [31:0] msg_in, output [31:0] h1, h2, h3, h4, h5, h6, h7, h8);
 	 
-reg [1:0]block;
-reg [6:0]select;
+
 reg regControl;		//high only when counter = 0, to input H values to a-h registers 
-reg [31:0] msg_in[15:0];
-//wire[31:0]  a_out, b_out, c_out, d_out, e_out, f_out, g_out, h_out , h2, h3, h4, h5, h6, h7, h8;
+
+wire[31:0]  a_out, b_out, c_out, d_out, e_out, f_out, g_out, h_out;
 wire[31:0] h11, h12, h13, h14, h15, h16, h17, h18;
+reg [31:0]msg_hash;
+
 initial 
 begin
-	select =0;
-	block =0;
 	regControl = 0;
-	$readmemh("message1.txt",msg_in);
 end
 
 wire [31:0] t1_out, t2_out;
@@ -45,7 +43,7 @@ wire [31:0] t1_out, t2_out;
 	H7 h_7(block, clk, g_out, h7, h17);
 	H8 h_8(block, clk, h_out, h8, h18);
 	
-   iteration i1(t1_out, t2_out, a_out,b_out,c_out,d_out,e_out,f_out,g_out,h_out,msg_in[select[3:0]],select, clk);
+   iteration i1(t1_out, t2_out, a_out,b_out,c_out,d_out,e_out,f_out,g_out,h_out, msg_in, msg_hash,block,select, clk);
 	
 	a a1(clk,a_out,regControl,h11,t1_out); 
 	bcdfgh b1(clk,regControl,h12,a_out,b_out);
@@ -70,39 +68,32 @@ begin
 		begin
 			regControl <= 0;	
 		end
-
-	if (select == 64)
-	begin
-	select <= 0;		
-	block <= block +1'b1;
-	end
-	else
-	select <= select + 1'b1;
-
 end
 
 always @(negedge clk)
 begin
-	if(block ==1 && select ==0)
+if(block ==2)
 	begin
-	msg_in[0] <= h1+ t1_out;
-	msg_in[1] <= h2+ a_out;
-	msg_in[2] <= h3+ b_out;
-	msg_in[3] <= h4+ c_out;
-	msg_in[4] <= h5+ t2_out;
-	msg_in[5] <= h6+ e_out;
-	msg_in[6] <= h7+f_out;
-	msg_in[7] <= h8+g_out;
-	msg_in[8] <= 32'h80000000;
-	msg_in[9] <= 32'b0;
-	msg_in[10] <= 32'b0;
-	msg_in[11] <= 32'b0;
-	msg_in[12] <= 32'b0;
-	msg_in[13] <= 32'b0;
-	msg_in[14] <= 32'b0;
-	msg_in[15] <= 32'h00000100;
-	end
+	case(select[3:0])
+	0: msg_hash <= h1+ t1_out;
+	1: msg_hash <= h2;
+	2: msg_hash <= h3;
+	3: msg_hash<= h4;
+	4: msg_hash <= h5;
+	5: msg_hash <= h6;
+	6: msg_hash <= h7;
+	7: msg_hash <= h8;
+	8: msg_hash <= 32'h80000000;
+	9: msg_hash <= 32'b0;
+	10: msg_hash <= 32'b0;
+	11: msg_hash <= 32'b0;
+	12: msg_hash <= 32'b0;
+	13: msg_hash <= 32'b0;
+	14: msg_hash <= 32'b0;
+	15: msg_hash <= 32'h00000100;
+	endcase
+	end 
 
 end
 
-endmodule
+endmodule 
