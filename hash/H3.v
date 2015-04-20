@@ -55,8 +55,7 @@ begin
 				end
 			if(Block ==3 && source ==0)
 				begin
-					H3_out <=c + H3_out;
-					H3 <=32'h3c6ef372;
+					H3_out <=c + H3;
 					source <=~source;
 				end	
 		end

@@ -54,8 +54,7 @@ begin
 						else
 		if(Block ==3 && source ==0)
 				begin
-					H8_out <= h + H8_out;
-			H8 <= 32'h5be0cd19;
+					H8_out <= h + H8;
 			source <= ~source;
 				end
 		end

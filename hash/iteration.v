@@ -18,17 +18,17 @@
 // Additional Comments: 
 //
 //////////////////////////////////////////////////////////////////////////////////
-module iteration(t1_out, t2_out, a,b,c,d,e,f,g,h, message_in, message_hash, block, select, clk);
+module iteration(a,b,c,d,e,f,g,h, h1, h2, h3, h4, h5, h6, h7, h8, control, message_in, message_hash, block, select, clk);
 
-output  reg [31:0]t1_out, t2_out;	
-input [31:0] a,b,c,d,e,f,g,h,message_in, message_hash;
+output reg [31:0]a,b,c,d,e,f,g,h;	
+input [31:0] h1, h2, h3, h4, h5, h6, h7, h8, message_in, message_hash;
 input [1:0]block;	
 input [6:0] select;
-input clk;
+input control, clk;
 //reg [31:0] K[63:0];
 reg [31:0] K;
 reg [31:0] message_array [16:0];
-reg [31:0]t1,t2;
+reg [31:0] t1, t2;
 integer i;
 
 //initial
@@ -172,12 +172,38 @@ begin
 	endcase	
 end
 
-always @(negedge clk)
+always @(posedge clk)
 	begin
 	 for(i = 0; i <16; i=i+1) begin
           message_array[i] = message_array[i+1];
        end 
-		end
+	end
+
+always @ (posedge clk)
+	begin
+		if (control == 1)				//we are initializing from the intermediate hash value when counter = 0
+		begin
+			h = h8;						//update value of a,b,c,d,e,f,g,h
+			g = h7;
+			f = h6;
+			e = h5;
+			d = h4;
+			c = h3;
+			b = h2;
+			a = h1;
+			end
+		else
+			begin
+			h = g;						//update value of a,b,c,d,e,f,g,h
+			g = f;
+			f = e;
+			e = t2;
+			d = c;
+			c = b;
+			b = a;
+			a = t1;
+			end
+	end
 
 always @(posedge clk)
 begin
@@ -196,11 +222,8 @@ if (select < 16)
 		end
 
 //t1=h+(({e[5:0], e[31:6]})^({e[10:0], e[31:11]})^({e[24:0], e[31:25]}))+((e&f)^((~e)&g))+K[select-1]+ message_array[15];
-t1=h+(({e[5:0], e[31:6]})^({e[10:0], e[31:11]})^({e[24:0], e[31:25]}))+((e&f)^((~e)&g))+ K + message_array[15];
-t2=(({a[1:0], a[31:2]})^({a[12:0], a[31:13]})^({a[21:0], a[31:22]}))+((a&b)^(a&c)^(b&c));
-t1_out = t1+t2;
-t2_out = d+t1;
-
+t1=h+(({e[5:0], e[31:6]})^({e[10:0], e[31:11]})^({e[24:0], e[31:25]}))+((e&f)^((~e)&g))+ K + message_array[15] + (({a[1:0], a[31:2]})^({a[12:0], a[31:13]})^({a[21:0], a[31:22]}))+((a&b)^(a&c)^(b&c));;
+t2=h+(({e[5:0], e[31:6]})^({e[10:0], e[31:11]})^({e[24:0], e[31:25]}))+((e&f)^((~e)&g))+ K + message_array[15] +d;
       
 end
 

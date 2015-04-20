@@ -55,8 +55,7 @@ begin
 				end
 				if(Block ==3 && source ==0)
 				begin
-					H2_out <=b + H2_out;
-					H2<=32'hbb67ae85;
+					H2_out <=b + H2;
 					source <=~source;
 				end
 		end

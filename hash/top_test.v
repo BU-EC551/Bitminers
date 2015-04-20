@@ -36,6 +36,14 @@ module top_test;
 	wire [31:0] h6;
 	wire [31:0] h7;
 	wire [31:0] h8;
+	wire [31:0] h1_2;
+	wire [31:0] h2_2;
+	wire [31:0] h3_2;
+	wire [31:0] h4_2;
+	wire [31:0] h5_2;
+	wire [31:0] h6_2;
+	wire [31:0] h7_2;
+	wire [31:0] h8_2;
 
 
 	// Instantiate the Unit Under Test (UUT)
@@ -48,7 +56,15 @@ module top_test;
 		.h5(h5), 
 		.h6(h6), 
 		.h7(h7), 
-		.h8(h8)
+		.h8(h8),
+		.h1_2(h1_2), 
+		.h2_2(h2_2), 
+		.h3_2(h3_2), 
+		.h4_2(h4_2), 
+		.h5_2(h5_2), 
+		.h6_2(h6_2), 
+		.h7_2(h7_2), 
+		.h8_2(h8_2)
 	);
 
 	initial begin

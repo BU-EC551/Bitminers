@@ -53,8 +53,7 @@ begin
 				end
 				if(Block ==3 && source ==0)
 				begin
-					H5_out <=e + H5_out;
-			H5 <=32'h510e527f;
+					H5_out <=e + H5;
 			source <=~source;
 				end
 		end

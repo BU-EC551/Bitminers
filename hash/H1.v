@@ -48,15 +48,14 @@ begin
 		else
 		if(Block ==2 && source ==1)
 				begin
-					H1_out <= a + H1_out;
+					H1_out <=a+ H1_out;
 					H1<= 32'h6a09e667;
 					source <= ~source;
 				end
 			else
 		if(Block ==3 && source ==0)
 				begin
-					H1_out <= a + H1_out;
-					H1<= 32'h6a09e667;
+					H1_out <= a + H1;
 					source <= ~source;
 				end
 		end
