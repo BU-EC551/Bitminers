@@ -42,12 +42,9 @@ module test_super;
 		.vga_v_sync(vga_v_sync), 
 		.vga_R(vga_R), 
 		.vga_G(vga_G), 
-<<<<<<< HEAD
 		.vga_B(vga_B),
 		.temp(temp)
-=======
-		.vga_B(vga_B)
->>>>>>> ca6f4445bd2340f9d05d89ab690fe74167c4cd9e
+
 	);
 
 	initial begin

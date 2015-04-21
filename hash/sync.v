@@ -26,15 +26,7 @@ output [9:0] CounterX;
 output [8:0] CounterY;
 
 //////////////////////////////////////////////////
-<<<<<<< HEAD
-initial 
-begin
-CounterX = 0;
-CounterY= 0;
-end
 
-=======
->>>>>>> ca6f4445bd2340f9d05d89ab690fe74167c4cd9e
 reg [9:0] CounterX;
 reg [8:0] CounterY;
 wire CounterXmaxed = (CounterX==10'h2FF);
