@@ -3,9 +3,9 @@
 // Company: 
 // Engineer: 
 // 
-// Create Date:    18:26:32 03/23/2015 
+// Create Date:    13:23:41 03/23/2015 
 // Design Name: 
-// Module Name:    e 
+// Module Name:    clkdiv 
 // Project Name: 
 // Target Devices: 
 // Tool versions: 
@@ -18,18 +18,23 @@
 // Additional Comments: 
 //
 //////////////////////////////////////////////////////////////////////////////////
-module e(data_out,clk,control,H5,t);
-output reg [31:0] data_out;
-input control, clk;
-input [31:0] H5,t;
-	
-always @ (negedge clk)
-	begin
-		if (control == 1)				//we are initializing from the intermediate hash value
-			data_out = H5;				//update value of a 
-		else
-			data_out = t;
-	end
-	
+module clkdiv(
+    output reg pixel_clk,
+    input clk
+    );
+
+
+reg [1:0] count;
+
+
+always @(posedge clk)
+begin
+count <= count + 1'b1;
+if (count > 2'b10)
+pixel_clk <= 1;
+else
+pixel_clk <= 0;
+end
 
 endmodule
+

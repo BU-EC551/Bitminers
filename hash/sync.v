@@ -26,6 +26,7 @@ output [9:0] CounterX;
 output [8:0] CounterY;
 
 //////////////////////////////////////////////////
+
 reg [9:0] CounterX;
 reg [8:0] CounterY;
 wire CounterXmaxed = (CounterX==10'h2FF);

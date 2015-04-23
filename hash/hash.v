@@ -43,19 +43,9 @@ wire [31:0] t1_out, t2_out;
 	H7 h_7(block, clk, g_out, h7, h17);
 	H8 h_8(block, clk, h_out, h8, h18);
 	
-   iteration i1(t1_out, t2_out, a_out,b_out,c_out,d_out,e_out,f_out,g_out,h_out, msg_in, msg_hash,block,select, clk);
-	
-	a a1(clk,a_out,regControl,h11,t1_out); 
-	bcdfgh b1(clk,regControl,h12,a_out,b_out);
-	bcdfgh c1(clk,regControl,h13,b_out,c_out);
-	bcdfgh d1(clk,regControl,h14,c_out,d_out);
-	e e1(e_out,clk,regControl,h15,t2_out);
-	bcdfgh f1(clk,regControl,h16,e_out,f_out);
-	bcdfgh g1(clk,regControl,h17,f_out,g_out);
-	bcdfgh h(clk,regControl,h18,g_out,h_out);
 
-	
-	
+   iteration i1(a_out,b_out,c_out,d_out,e_out,f_out,g_out,h_out,h11, h12, h13, h14, h15, h16, h17, h18,regControl, msg_in, msg_hash,block,select, clk);
+
 always @(posedge clk)
 begin
 
@@ -75,7 +65,7 @@ begin
 if(block ==2)
 	begin
 	case(select[3:0])
-	0: msg_hash <= h1+ t1_out;
+	0: msg_hash <= a_out;
 	1: msg_hash <= h2;
 	2: msg_hash <= h3;
 	3: msg_hash<= h4;

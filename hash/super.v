@@ -18,7 +18,9 @@
 // Additional Comments: 
 //
 //////////////////////////////////////////////////////////////////////////////////
-module super(input clk, output vga_h_sync, vga_v_sync, vga_R, vga_G, vga_B/*, temp*/);
+
+module super(input clk, output vga_h_sync, vga_v_sync, vga_R, vga_G, vga_B, temp);
+
 
 reg print;
 reg [1:0] block;
@@ -63,17 +65,19 @@ begin
 	nonce = 0;
 end
 
-//assign temp = h1_1[0] + h2_1[0] + h3_1[0] + h4_1[0] + h5_1[0] + h6_1[0] + h7_1[0] + h8_1[0] +
-//				  h1_2[0] + h2_2[0] + h3_2[0] + h4_2[0] + h5_2[0] + h6_2[0] + h7_2[0] + h8_2[0] +
-//				  h1_3[0] + h2_3[0] + h3_3[0] + h4_3[0] + h5_3[0] + h6_3[0] + h7_3[0] + h8_3[0] + 
-//				  h1_4[0] + h2_4[0] + h3_4[0] + h4_4[0] + h5_4[0] + h6_4[0] + h7_4[0] + h8_4[0];
+assign temp = h1_1[0] + h2_1[0] + h3_1[0] + h4_1[0] + h5_1[0] + h6_1[0] + h7_1[0] + h8_1[0] +
+				  h1_2[0] + h2_2[0] + h3_2[0] + h4_2[0] + h5_2[0] + h6_2[0] + h7_2[0] + h8_2[0] +
+				  h1_3[0] + h2_3[0] + h3_3[0] + h4_3[0] + h5_3[0] + h6_3[0] + h7_3[0] + h8_3[0] + 
+				  h1_4[0] + h2_4[0] + h3_4[0] + h4_4[0] + h5_4[0] + h6_4[0] + h7_4[0] + h8_4[0];
 
-clk_div cl1(pixel_clk,clk);
+clkdiv cl1(pixel_clk,clk);
+
 
 always @ (posedge clk)
 begin
 
-		if (select == 64)
+
+		if (select == 65)
 		begin
 			select <= 0;
 			block <= block + 1'b1;
