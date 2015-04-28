@@ -9,18 +9,21 @@
 #define BUFFER_SIZE (256 * 1024)
 #define MIDSTATE_SIZE 32
 #define DATA_SIZE 128
+#define DATA_LENGTH 256
 
 const char *req = "{\"id\": \"1\", \"method\": \"getwork\",\"params\": []}\n";
 const char *usr = "priyab.worker1";
 const char *pwd = "priya";
 const char *pool_url = "http://192.168.1.12:8332";
-
+unsigned char nonce[4] = "1234";
+char current_data[DATA_LENGTH];
+unsigned char header_buffer[160];
+// = "deadbee14cc2c57c7905fd399965282c87fe259e7da366e035dc087a0000141f000000006427b6492f2b052578fb4bc23655ca4e8b9e2b9b69c88041b2ac8c771571d1be4de695931a2694217a00110e000000800000000000000000000000000000000000000000000000000000000000000000000000000000000080020000\0";
 
 char* request(char* url, char* bin_data);
 
 int main()
 {
-
 	printf("hello world!\n");
 	int i;
 	char input;
@@ -37,11 +40,11 @@ int main()
 
 	////////////////////////
 	//for(i=0; i<64;i++)
-		//bytes_to_send[i] = 64-i;
-	bytes_to_send[0]=1;
-	bytes_to_send[1]=2;
-	bytes_to_send[2]=3;
-	bytes_to_send[3]=4;
+		//bytes_to_send[i] = i;
+	//bytes_to_send[0]=1;
+	//bytes_to_send[1]=2;
+	//bytes_to_send[2]=3;
+	//bytes_to_send[3]=4;
 
 	HANDLE hSerial;
     hSerial = CreateFile(
@@ -85,6 +88,26 @@ int main()
         CloseHandle(hSerial);
         return 1;
     }
+	// Send specified text (remaining command line arguments)
+    DWORD bytes_written, total_bytes_written = 0;
+    fprintf(stderr, "\nSending bytes...%d", header_buffer[0]);
+
+	while(1)
+	{
+    if(!WriteFile(hSerial, bytes_to_send, 64, &bytes_written, NULL))
+    {
+        fprintf(stderr, "Error\n");
+        CloseHandle(hSerial);
+        return 1;
+    }
+	input = getchar();
+	if (input == 'e')
+		break;
+	bytes_to_send[0] = bytes_to_send[0] + 1;
+	bytes_to_send[1] = bytes_to_send[1] + 1;
+	bytes_to_send[2] = bytes_to_send[2] + 1;
+	bytes_to_send[3] = bytes_to_send[3] + 1;
+	}
 
 	DWORD numBytesRead;
 
@@ -106,29 +129,7 @@ int main()
 		break;
     }
 
-	// Send specified text (remaining command line arguments)
-    DWORD bytes_written, total_bytes_written = 0;
-    fprintf(stderr, "\nSending bytes...");
-
-	while(1)
-	{
-    if(!WriteFile(hSerial, bytes_to_send, 64, &bytes_written, NULL))
-    {
-        fprintf(stderr, "Error\n");
-        CloseHandle(hSerial);
-        return 1;
-    }
-	input = getchar();
-	if (input == 'e')
-		break;
-	bytes_to_send[0] = bytes_to_send[0] + 1;
-	bytes_to_send[1] = bytes_to_send[1] + 1;
-	bytes_to_send[2] = bytes_to_send[2] + 1;
-	bytes_to_send[3] = bytes_to_send[3] + 1;
-	}
-
-    fprintf(stderr, "%d bytes written\n", bytes_written);
-
+	fprintf(stderr, "%d bytes written\n", bytes_written);
 
     // Close serial port
     fprintf(stderr, "Closing serial port...");
@@ -139,6 +140,13 @@ int main()
     }
     fprintf(stderr, "OK\n");
 	
+	//////////////////////////////////
+
+	printf("Submitting nonce ....\n");
+	submit_nonce(current_data);
+
+	/////////////////////////////////
+
     // exit normally
     return 0;
 }
@@ -183,6 +191,44 @@ unsigned char* hexStringToBytes(unsigned char* inhex)
 
 }
 
+void submit_nonce(char *arg)
+{
+
+	char *proof_resp;
+	const json_t *json_setup, *json_resp, *result=NULL;
+	json_error_t json_error;
+	char nonce_hex[8] ="efefefef";
+	char submitreq[100];
+
+	//sprintf(nonce_hex, "%02x%02x%02x%02x", nonce[0], nonce[1], nonce[2], nonce[3]);
+	strncpy((char*)arg+152, nonce_hex, 8);
+	//json_setup = json_pack_ex(&json_error,0,"{ss,s[s],si}", "method", "getwork", "params", (char *)arg, "id", 1);
+	//json_setup = json_pack_ex(&json_error,0,"i",42);
+
+	//if(!json_setup)
+		//printf("json setup error while submitting nonce\n");
+
+
+	sprintf(submitreq, "{\"id\": \"1\", \"method\": \"getwork\",\"params\": [\"%s\"]}\n",arg);
+	printf("%s", submitreq);
+	proof_resp = request(pool_url, submitreq);
+	if(!proof_resp)
+		printf("submit nonce response failed\n");
+
+	printf("Proof resp %s", proof_resp);
+	/*json_resp = json_loads(proof_resp, 0 , &json_error);
+
+	if (!json_resp)
+		printf("Error in json response while submitting nonce\n");
+
+	result = json_object_get(json_resp, "result");
+	json_decref(json_resp);
+	printf("Result %d", json_string_value(result));*/
+
+	//printf("submit response %s", proof_resp);
+
+}
+
 void request_and_write_work(char* url)
 {
 	char* init_resp;
@@ -204,11 +250,13 @@ void request_and_write_work(char* url)
 
 	if(!data || !midstate)
 		printf("Data or midstate empty");
+		printf("INit response %s", init_resp);
+
+	memcpy(current_data, init_resp+188, DATA_LENGTH);
 
 	unsigned char* databytes =  hexStringToBytes(json_string_value(data));
 	unsigned char* midstatebytes = hexStringToBytes(json_string_value(midstate));
 
-	unsigned char header_buffer[160];
 	memcpy(header_buffer, midstatebytes, MIDSTATE_SIZE);
 	memcpy(header_buffer+MIDSTATE_SIZE, databytes, DATA_SIZE);
 	int i;
@@ -232,10 +280,12 @@ char* request(char* url, char* bin_data)
 	data = malloc(BUFFER_SIZE);
 	if (!data)
 		printf("malloc error \n");
+
 	struct write_result write_result = {
 		.data = data,
 		.pos = 0
 	};
+
 	curl_easy_setopt (curl, CURLOPT_URL, url);
 	curl_easy_setopt (curl, CURLOPT_POSTFIELDS, ((void*) bin_data));
 	//curl_easy_setopt (curl, CURLOPT_POSTFIELDSIZE, ((long) -1));

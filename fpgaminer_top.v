@@ -146,7 +146,6 @@ module fpgaminer_top (osc_clk, RxD, TxD, anode, segment, disp_switch);
 		`else
 			midstate_buf <= midstate_vw;
 			data_buf <= data2_vw;
-			nonce <= 30411740;
 		`endif
 
 		cnt <= cnt_next;
@@ -173,13 +172,13 @@ module fpgaminer_top (osc_clk, RxD, TxD, anode, segment, disp_switch);
 			if (!serial_busy) serial_send <= 1;
 		   
 		end // if (is_golden_ticket)
-		else begin
+		/*else begin
 				golden_nonce <= 32'hc0b5ff31;
 				if (!serial_busy) serial_send <= 1;
-		end
+		end*/
 
-		//else
-		  //serial_send <= 0;
+		else
+		  serial_send <= 0;
 	   
 `ifdef SIM
 		if (!feedback_d1)
