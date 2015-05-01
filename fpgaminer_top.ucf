@@ -1,0 +1,19 @@
+
+# PlanAhead Generated physical constraints 
+
+NET "osc_clk" LOC = V10;
+NET "TxD" LOC = N18;
+NET "RxD" LOC = N17;
+NET "segment[0]" LOC = T17;
+NET "segment[1]" LOC = T18;
+NET "segment[2]" LOC = U17;
+NET "segment[3]" LOC = U18;
+NET "segment[4]" LOC = M14;
+NET "segment[5]" LOC = N14;
+NET "segment[6]" LOC = L14;
+NET "segment[7]" LOC = M13;
+NET "anode[0]" LOC = N16;
+NET "anode[1]" LOC = N15;
+NET "anode[2]" LOC = P18;
+NET "anode[3]" LOC = P17;
+NET "disp_switch" LOC = T10;
