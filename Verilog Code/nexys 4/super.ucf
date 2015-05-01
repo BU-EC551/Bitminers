@@ -1,0 +1,67 @@
+
+# PlanAhead Generated physical constraints 
+
+NET "rgb[7]" LOC = D8 | IOSTANDARD = "LVCMOS33";
+
+
+# PlanAhead Generated physical constraints 
+
+NET "rgb[6]" LOC = D7 | IOSTANDARD = "LVCMOS33";
+
+
+# PlanAhead Generated physical constraints 
+
+NET "rgb[5]" LOC = A6 | IOSTANDARD = "LVCMOS33";
+
+
+# PlanAhead Generated physical constraints 
+
+NET "rgb[4]" LOC = B6 | IOSTANDARD = "LVCMOS33";
+
+
+# PlanAhead Generated physical constraints 
+
+NET "rgb[3]" LOC = A5 | IOSTANDARD = "LVCMOS33";
+
+
+# PlanAhead Generated physical constraints 
+
+NET "rgb[2]" LOC = A4 | IOSTANDARD = "LVCMOS33";
+
+
+# PlanAhead Generated physical constraints 
+
+NET "rgb[1]" LOC = C5 | IOSTANDARD = "LVCMOS33";
+
+
+# PlanAhead Generated physical constraints 
+
+NET "rgb[0]" LOC = B4 | IOSTANDARD = "LVCMOS33";
+
+
+# PlanAhead Generated physical constraints 
+
+NET "sw[3]" LOC = P3 | IOSTANDARD = "LVCMOS33";
+NET "sw[2]" LOC = P4 | IOSTANDARD = "LVCMOS33";
+NET "sw[1]" LOC = R3 | IOSTANDARD = "LVCMOS33";
+NET "sw[0]" LOC = T1 | IOSTANDARD = "LVCMOS33";
+# PlanAhead Generated physical constraints 
+
+NET "btnd" LOC = V10 | IOSTANDARD = "LVCMOS33";
+NET "clk" LOC = E3 | IOSTANDARD = "LVCMOS33";
+
+
+# PlanAhead Generated physical constraints 
+
+NET "hsync" LOC = B11 | IOSTANDARD = "LVCMOS33";
+
+
+# PlanAhead Generated physical constraints 
+
+#NET "RxD" LOC = C4 | IOSTANDARD = "LVCMOS33";
+#NET "TxD" LOC = D4 | IOSTANDARD = "LVCMOS33";
+
+
+# PlanAhead Generated physical constraints 
+
+NET "vsync" LOC = B12 | IOSTANDARD = "LVCMOS33";
